@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres:13.1
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+  api:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules
+    env_file:
+      - .env
