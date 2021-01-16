@@ -1,9 +1,11 @@
 require('dotenv').config()
 import * as cluster from 'cluster'
 import * as os from 'os'
+
 import app from './app/app'
 import { log, errLog } from './app/services/logger.service'
 import { configService } from './app/services/config.service'
+import { DBService } from './app/services/db.service'
 
 const { port, nodeEnv, isProd } = configService.get('bootstrap')
 
@@ -38,6 +40,7 @@ if (cluster.isMaster && isProd) {
   })
 
   app.listen(port, (): void => {
+    new DBService()
     log('Started server')
     log(`Running at http://localhost:${port} in ${nodeEnv} mode`)
   })

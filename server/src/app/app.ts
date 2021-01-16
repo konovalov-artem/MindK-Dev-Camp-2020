@@ -2,7 +2,8 @@ import * as express from 'express'
 import * as pinoHttp from 'pino-http'
 import * as helmet from 'helmet'
 import { logger } from './services/logger.service'
-import index from './routes'
+import auth from './routes/auth'
+import user from './routes/user'
 import { Response, Request } from 'express'
 
 const app = express()
@@ -12,7 +13,8 @@ app.use(pinoHttp({ logger }))
 app.use(helmet())
 
 // Routes
-app.use(index)
+app.use('/auth', auth)
+app.use('/user', user)
 
 // Error handler
 app.use((e: Error, req: Request, res: Response) => {
